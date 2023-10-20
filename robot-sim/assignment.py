@@ -124,28 +124,71 @@ def go_take_token(dist, rot_y, token_id1):
 		elif -a_th<= rot_y <= a_th and dist >d_th: # if the robot is well aligned with the token, we go forward
 			# print("Ah, here we are!.")
 			drive(15, 0.5)   	   
-		elif dist <d_th: 
+		elif dist <d_th:
 			drive(0,1)
 			# print("Found it!")
 			R.grab() # if we are close to the token, we grab it.
 			print("Gotcha!") 
 			notgrabbed = 1;
-			#turn(20,2)
-			#drive(20,2)
-			#R.release()
-			#drive(-20,2)
-			#turn(-10,1.3)
-		
+			drive(-15, 0.5)	
 		dist, rot_y, token_id2 = find_token()
 		if token_id2 == token_id2:
 			token_id1 = token_id2
 		else: 
 			print('i dont see the token ', token_id1, ' anymore')
 			print('now i see token ', token_id2)
-	return counter_left_rotation, counter_right_rotation
+		
+	#TODO: actually count rotation instead of performing rotations without check	
+	# perform a rotation that brings e back to the inizial rotation
+	while counter_left_rotation != 0:
+		# for each left rot,i do a right rot
+		# print("Right a bit...")
+		turn(+10, 0.1)	
+		counter_left_rotation = counter_left_rotation-1
+	
+	while counter_right_rotation != 0:
+		# for each right rot,i do a left rot
+		# print("Left a bit...")
+		turn(-10, 0.1)	
+		counter_right_rotation = counter_right_rotation -1
+			
+	
+	
+def place_first_token(id_max_dist_token,target_distance):
+	# token already grabbed
+	first_token_placed = 0;
+	markers = R.see()
+
+	for m in markers:
+			if m.info.offset != id_max_dist_token:
+				markers.remove(m)
+		
+	# assumption: i have already grabbed the token	
+	while first_token_placed == 0:
+		markers = R.see()
+		for m in markers:
+			if m.info.offset != id_max_dist_token:
+				markers.remove(m)
+		
+		# list of one element
+		for m in markers:
+    			dist = m.dist
+    			rot_y = m.rot_y
+    			token_id = m.info.offset
+		 	
+		if dist < (target_distance/2): # if the robot is well aligned with the token, we go forward
+			#print("Ah, here we are!.")
+			drive(15, 0.5)   			
+		elif dist > (target_distance/2):
+			R.release()
+			first_token_placed = 1 
+			print("First token released.")
+			drive(-10,1)				
+	
 
 def main():
 
+	markers = R.see()
 	dist, rot_y, token_id = find_token()
 	while dist == -1:  # we look for markers
 	     print("I don't see any token!!")
@@ -153,7 +196,7 @@ def main():
 	     turn(10,0.5)
 	     dist, rot_y, token_id = find_token()
 
-	markers = R.see()
+	
 	print ("I can see", len(markers), "markers:")
 	
 	target_distance, id_max_dist_token, id_min_dist_token = center_group(markers)
@@ -161,39 +204,22 @@ def main():
 	#for m in markers:	
 	#	print (" - Token {0} is {1} metres away".format( m.info.offset, m.dist )
 
-	print('the distance between nearset and farest token is: ', target_distance)
-	print('offset of min_dist_ token is: ',id_min_dist_token )
-	print('offset of max_dist_ token is: ',id_max_dist_token)
+	print('the distance between nearest and farest token is: ', target_distance)
+	print('offset of min_dist_token is: ',id_min_dist_token )
+	print('offset of max_dist_token is: ',id_max_dist_token)
 	
+	# go take the first token
+	go_take_token(dist, rot_y, token_id)
+	
+	# go towards the max dist token and stop half way
+	place_first_token(id_max_dist_token,target_distance)
 	
 	# TODO: implement how to reach target distance here to call just a function iteratively on each token. by now it works, so i'll do it later
-	# it's okay to use them as a return, so when i'll put the functionality inside the function itself i already have these values avaiable
-	counter_left_rotation, counter_right_rotation = go_take_token(dist, rot_y, token_id) 
-	
-	#TODO: actually count rotation instead of performing rotations without check
-	# perform a rotation that brings e back to the inizial rotation
-	while counter_left_rotation != 0:
-		# for each left rot,i do a right rot
-		print("Right a bit...")
-		turn(+10, 0.1)	
-		counter_left_rotation = counter_left_rotation-1
-		print(counter_left_rotation)
-	
-	while counter_right_rotation != 0:
-		# for each right rot,i do a left rot
-		print("Left a bit...")
-		turn(-10, 0.1)	
-		counter_right_rotation = counter_right_rotation -1
-		print(counter_right_rotation)
+	# modify go_take_token
 	
 	
-	# update distance between target and actual distance
 	
-	''' while target_distance-dist > 0:
-				print(target_distance-dist)
-				dist, rot_y, token_id = find_token()
-				drive(10,0.5)
-			R.release() 	 '''
+	
 	
 	 
 	
