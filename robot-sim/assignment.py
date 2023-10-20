@@ -154,14 +154,19 @@ def go_take_first_token(dist, rot_y, token_id1):
 		
 	
 	
-def go_take_token_i(dist, rot_y, token_id, first_token_placed,id_token_list):
+def go_take_token_i(dist, rot_y, token_id,id_token_list):
 	notgrabbed = 0
 	counter_left_rotation = 0
 	counter_right_rotation = 0
 	
-	print(first_token_placed)
+	# print(first_token_placed)
 	
-	while notgrabbed == 0 and first_token_placed == 1:
+	while notgrabbed == 0: # and first_token_placed == 1:
+		for m in R.see():
+			if m.info.offset == token_id:
+				dist = m.dist
+				rot_y = m.rot_y
+			
 		if rot_y < -a_th: # if the robot is not well aligned with the token, we move it on the left or on the right
 			print("Left a bit...")
 			turn(-10, 0.1)
@@ -170,22 +175,19 @@ def go_take_token_i(dist, rot_y, token_id, first_token_placed,id_token_list):
 		elif rot_y > a_th:
 			print("Right a bit...")
 			turn(+10, 0.1)	
-			drive(15,0.5)  
-			print(rot_y)
-			print(a_th)
+			drive(15,0.5) 
 			counter_right_rotation = counter_right_rotation +1
 		elif -a_th<= rot_y <= a_th and dist >d_th: # if the robot is well aligned with the token, we go forward
 			print("Ah, here we are!.")
 			drive(15, 0.5)   	   
-		elif dist <d_th and token_id in id_token_list:
+		elif dist <d_th: # and token_id in id_token_list:
 			drive(0,1)
 			print("Found it!")
 			R.grab() # if we are close to the token, we grab it.
 			print("Gotcha!") 
-			notgrabbed = 1;
-			drive(-15, 0.5)	
-		
-	#TODO: actually count rotation instead of performing rotations without check	
+			notgrabbed = 1;	
+	
+	'''
 	# perform a rotation that brings e back to the inizial rotation
 	while counter_left_rotation != 0:
 		# for each left rot,i do a right rot
@@ -197,7 +199,7 @@ def go_take_token_i(dist, rot_y, token_id, first_token_placed,id_token_list):
 		# for each right rot,i do a left rot
 		# print("Left a bit...")
 		turn(-10, 0.1)	
-		counter_right_rotation = counter_right_rotation -1
+		counter_right_rotation = counter_right_rotation -1 '''
 	
 	
 def place_first_token(id_max_dist_token,target_distance):
@@ -249,7 +251,10 @@ def place_first_token(id_max_dist_token,target_distance):
 			drive(-10,1)
 			print(target_distance/2)   	
 			print(dist)	
-	return first_token_placed			
+	return first_token_placed	
+	
+def bring_token_to_target():
+	exit()	
 	
 
 def main():
@@ -284,30 +289,70 @@ def main():
 	print('first token placed: ', first_token_placed)
 	
 	# perfom a full rotation to see each token
-	id_token_list = []
+	i = 0
+	counter = 0
+	# remaining_token_dict = {}
 	dist_token_list = []
 	rot_token_list = []
-	i = 0
+	id_token_list = []
 	# 6 partial rotation almost correspond to a 360 rotation
 	while i  < 6:
 		for m in R.see():
 			if m.info.offset not in id_token_list:
+				# index out of bound (idk)
+				#dist_token_list[counter] = m.dist
+				#rot_token_list[counter] = m.rot_y
+				#id_token_list[counter] = m.info.offset
+				#counter = counter + 1
+				#print(counter)
 				id_token_list.append(m.info.offset) 
 				dist_token_list.append(m.dist) 
 				rot_token_list.append(m.rot_y)
+				counter = counter +1
+							
 		i = i+1
 		turn(-20,1)
 		# sometimes it misses token 10
-	print(dist_token_list)
-	print(rot_token_list)
+		
+	#print(dist_token_list)
+	#print(rot_token_list)
+	print(id_token_list)
 	
-	# remove the id_in_dist token that was placed in the middle
-	for j in id_token_list:
-		if j == id_min_dist_token:
-			id_token_list.remove(j)
 	
-	print('the list of token to move is composed of: ', len(id_token_list))
-	print('elements that are: ', id_token_list)
+	#remaining_token = [dist_token_list, rot_token_list, id_token_list]
+	#print(remaining_token)
+	
+	''' attempt with dictionary
+	while i  < 6:
+		for m in R.see():
+			if m.info.offset not in remaining_token_dict:
+				remaining_token_dict[counter] = {
+					'dist': m.dist,
+					'rot_y': m.rot_y,
+					'token_id': m.info.offset
+					}
+			print(remaining_token_dict[counter])			
+		i = 1+1
+		counter = counter + 1
+		turn(-20,1)
+		# sometimes it misses token 10 '''
+	
+	
+	# remove the id_min_dist token that was placed in the middle
+	d = 0
+	while d < counter:
+		if id_token_list[d] == id_min_dist_token:
+			dist_token_list.pop(d)
+			rot_token_list.pop(d)
+			id_token_list.pop(d)
+			counter -= 1
+		d += 1
+		
+			
+	
+	# print('the list of token to move is composed of: ', len(id_token_list))
+	# print('elements that are: ', id_token_list)
+	
 	
 	# TODO: find a smarter way
 	# to not go into the first token
@@ -315,6 +360,20 @@ def main():
 	turn(10,2)
 	drive(10,3)
 	turn(-10,2)
+	
+	d = 0
+	while d < counter:
+		dist = dist_token_list[d]
+		rot_y = rot_token_list[d]
+		token_id = id_token_list[d]
+		go_take_token_i(dist,rot_y,token_id,id_token_list)
+		print('here')
+		exit()
+		bring_token_to_target
+		# remove element d? need to decrease d. yes because i pass id_token_list to go take token i
+		d += 1
+		
+		
 	
 	'''
 	for j in id_token_list:
