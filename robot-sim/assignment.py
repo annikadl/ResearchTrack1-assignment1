@@ -158,6 +158,7 @@ def place_first_token(id_max_dist_token,target_distance):
 	# token already grabbed
 	first_token_placed = 0;
 	markers = R.see()
+	# a_th2 = 1.10e-14
 
 	for m in markers:
 			if m.info.offset != id_max_dist_token:
@@ -175,15 +176,33 @@ def place_first_token(id_max_dist_token,target_distance):
     			dist = m.dist
     			rot_y = m.rot_y
     			token_id = m.info.offset
-		 	
+    		
+    		# print(rot_y)
+    		# print(a_th2)
+    		    			
+    		'''
+    		TRIED TO PLACE IT BETTER
+    		if rot_y < -a_th2 and dist < (target_distance/2): # if the robot is not well aligned with the token, we move it on the left or on the right
+			# print("Left a bit...")
+			turn(-10, 0.1)
+			drive(15, 0.5) 
+		elif rot_y > a_th2 and dist < (target_distance/2):
+			# print("Right a bit...")
+			turn(+10, 0.1)
+			drive(15, 0.5) 	
+		#elif - a_th2<= rot_y <= a_th2 and dist < (target_distance/2):
+		'''
+		
 		if dist < (target_distance/2): # if the robot is well aligned with the token, we go forward
 			#print("Ah, here we are!.")
-			drive(15, 0.5)   			
+			drive(15, 0.5)		
 		elif dist > (target_distance/2):
 			R.release()
 			first_token_placed = 1 
 			print("First token released.")
-			drive(-10,1)				
+			drive(-10,1)
+			print(target_distance/2)   	
+			print(dist)				
 	
 
 def main():
@@ -214,8 +233,34 @@ def main():
 	# go towards the max dist token and stop half way
 	place_first_token(id_max_dist_token,target_distance)
 	
+	# perfom a full rotation to see each token
+	id_token_list = []
+	
+	# it could be an infinite loop
+	i = 0
+	# 6 partial rotation almost correspond to a 360 rotation
+	while i  < 6:
+		for m in R.see():
+			if m.info.offset not in id_token_list:
+				id_token_list.append(m.info.offset) 
+		print(id_token_list)
+		i = i+1
+		turn(-20,1)
+	
+	# remove the id_in_dist token that was placed in the middle
+	for j in id_token_list:
+		if j == id_min_dist_token:
+			id_token_list.remove(j)
+	
+	print('the list of token to move is composed of: ', len(id_token_list))
+	print('elements that are: ', id_token_list)
+		
+	
+	
+
 	# TODO: implement how to reach target distance here to call just a function iteratively on each token. by now it works, so i'll do it later
 	# modify go_take_token
+	
 	
 	
 	
