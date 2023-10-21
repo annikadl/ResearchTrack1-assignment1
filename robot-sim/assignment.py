@@ -295,8 +295,8 @@ def main():
 	dist_token_list = []
 	rot_token_list = []
 	id_token_list = []
-	# 6 partial rotation almost correspond to a 360 rotation
-	while i  < 6:
+	# 12 partial rotation almost correspond to a 360 rotation
+	while i  < 12:
 		for m in R.see():
 			if m.info.offset not in id_token_list:
 				# index out of bound (idk)
@@ -311,7 +311,7 @@ def main():
 				counter = counter +1
 							
 		i = i+1
-		turn(-20,1)
+		turn(-20,0.5)
 		# sometimes it misses token 10
 		
 	#print(dist_token_list)
