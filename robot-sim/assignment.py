@@ -26,6 +26,8 @@ def drive(speed, seconds):
     time.sleep(seconds)
     R.motors[0].m0.power = 0
     R.motors[0].m1.power = 0
+    
+    
 
 def turn(speed, seconds):
     """
@@ -39,6 +41,8 @@ def turn(speed, seconds):
     time.sleep(seconds)
     R.motors[0].m0.power = 0
     R.motors[0].m1.power = 0
+    
+    
 
 def find_token():
     """
@@ -58,31 +62,8 @@ def find_token():
 	return -1, -1
     else:
    	return dist, rot_y, token_id
-   	
-  
-# TODO: i dont think i need this func
-'''	   	
-def grab_token():
-	while 1:
-	    dist, rot_y = find_token()  # we look for markers
-	    if dist==-1:
-		print("I don't see any token!!")
-		exit()  # if no markers are detected, the program ends
-	    elif dist <d_th: 
-		print("Found it!")
-		R.grab() # if we are close to the token, we grab it.
-		print("Gotcha!") 
-		exit()
-	    elif -a_th<= rot_y <= a_th: # if the robot is well aligned with the token, we go forward
-		print("Ah, here we are!.")
-		drive(10, 0.5)
-	    elif rot_y < -a_th: # if the robot is not well aligned with the token, we move it on the left or on the right
-		print("Left a bit...")
-		turn(-2, 0.5)
-	    elif rot_y > a_th:
-		print("Right a bit...")
-		turn(+2, 0.5)	 '''
-		   	
+   			   	
+
 		
 def center_group(markers):
 	min_dist = 100
@@ -104,13 +85,14 @@ def center_group(markers):
 	
 	return target_distance, id_max_dist_token, id_min_dist_token
 	
+	
+	
 def go_take_first_token(dist, rot_y, token_id1):
 	counter_left_rotation = 0
 	counter_right_rotation = 0
 	
 	notgrabbed = 0;
 	
-	# non so se va bene while true
 	while notgrabbed == 0: 
 		if rot_y < -a_th: # if the robot is not well aligned with the token, we move it on the left or on the right
 			# print("Left a bit...")
@@ -139,7 +121,6 @@ def go_take_first_token(dist, rot_y, token_id1):
 			print('i dont see the token ', token_id1, ' anymore')
 			print('now i see token ', token_id2)
 		
-	#TODO: actually count rotation instead of performing rotations without check	
 	# perform a rotation that brings e back to the inizial rotation
 	while counter_left_rotation != 0:
 		# for each left rot,i do a right rot
@@ -166,7 +147,6 @@ def go_take_token_i(dist, rot_y, token_id,id_token_list):
 	# print(first_token_placed)
 	while found == 0:
 			for m in R.see():
-				# counter = counter +1
 				if m.info.offset == token_id:
 					dist = m.dist
 					rot_y = m.rot_y
@@ -175,13 +155,7 @@ def go_take_token_i(dist, rot_y, token_id,id_token_list):
 					found_id = token_id
 			if found_id != token_id:
 				turn(-25,0.5)
-				# counter = 0 
-	
-	#if counter > 1:
-	#	turn(20,2)
-	#	drive(30,3)
-	#	turn(-20,3) 
-	
+				
 	while notgrabbed == 0: # and first_token_placed == 1:
 		# when found once, is always in R.see()
 		for m in R.see():
@@ -214,19 +188,7 @@ def go_take_token_i(dist, rot_y, token_id,id_token_list):
 	# assunption: the robot takes the token turning its back from the center
 	drive(-20,1)
 	turn(-20,2.5)
-	'''
-	# perform a rotation that brings e back to the inizial rotation
-	while counter_left_rotation != 0:
-		# for each left rot,i do a right rot
-		# print("Right a bit...")
-		turn(+10, 0.1)	
-		counter_left_rotation = counter_left_rotation-1
-	
-	while counter_right_rotation != 0:
-		# for each right rot,i do a left rot
-		# print("Left a bit...")
-		turn(-10, 0.1)	
-		counter_right_rotation = counter_right_rotation -1 '''
+
 	
 	
 def place_first_token(id_max_dist_token,target_distance):
@@ -251,22 +213,6 @@ def place_first_token(id_max_dist_token,target_distance):
     			dist = m.dist
     			rot_y = m.rot_y
     			token_id = m.info.offset
-    		
-    		# print(rot_y)
-    		# print(a_th2)
-    		    			
-    		'''
-    		TRIED TO PLACE IT BETTER
-    		if rot_y < -a_th2 and dist < (target_distance/2): # if the robot is not well aligned with the token, we move it on the left or on the right
-			# print("Left a bit...")
-			turn(-10, 0.1)
-			drive(15, 0.5) 
-		elif rot_y > a_th2 and dist < (target_distance/2):
-			# print("Right a bit...")
-			turn(+10, 0.1)
-			drive(15, 0.5) 	
-		#elif - a_th2<= rot_y <= a_th2 and dist < (target_distance/2):
-		'''
 		
 		if dist < (target_distance/2): # if the robot is well aligned with the token, we go forward
 			#print("Ah, here we are!.")
@@ -281,6 +227,7 @@ def place_first_token(id_max_dist_token,target_distance):
 	return first_token_placed	
 	
 def bring_token_to_target(token_id, id_min_dist_token):
+	
 	#TODO: unire con go_take_token_i e fare conftonto con token id per grabbare o release
 	''' 
 	cerco in R.see() il token target
@@ -390,30 +337,6 @@ def main():
 							
 		i = i+1
 		turn(-20,0.5)
-		# sometimes it misses token 10
-		
-	#print(dist_token_list)
-	#print(rot_token_list)
-	# print(id_token_list)
-	
-	
-	#remaining_token = [dist_token_list, rot_token_list, id_token_list]
-	#print(remaining_token)
-	
-	''' attempt with dictionary
-	while i  < 6:
-		for m in R.see():
-			if m.info.offset not in remaining_token_dict:
-				remaining_token_dict[counter] = {
-					'dist': m.dist,
-					'rot_y': m.rot_y,
-					'token_id': m.info.offset
-					}
-			print(remaining_token_dict[counter])			
-		i = 1+1
-		counter = counter + 1
-		turn(-20,1)
-		# sometimes it misses token 10 '''
 	
 	
 	# remove the id_min_dist token that was placed in the middle
@@ -426,18 +349,6 @@ def main():
 			counter -= 1
 		d += 1
 		
-			
-	
-	# print('the list of token to move is composed of: ', len(id_token_list))
-	# print('elements that are: ', id_token_list)
-	
-	
-	# TODO: find a smarter way
-	# to not go into the first token
-	# drive(-10,3)
-	# turn(10,2)
-	# drive(15,3)
-	# turn(-10,1)
 	
 	d = 0
 	#while d < counter:
@@ -460,41 +371,6 @@ def main():
 		
 	print('task accomplished!.')
 	exit()
-		
-		
-	
-	'''
-	for j in id_token_list:
-	# TODO: i need to skip the first element because it is the target
-		dist = dist_token_list[j]
-		rot_y = rot_token_list[j]
-		token_id = id_token_list[j]	
-		go_take_token_i(dist, rot_y, token_id,first_token_placed,id_token_list)
-		'''
-		
-	
-	
-
-	# TODO: implement how to reach target distance here to call just a function iteratively on each token. by now it works, so i'll do it later
-	# modify go_take_token
-	
-	
-	
-	
-	
-	
-	
-			
-	
-	
-		
-	
-	
-	
-	
-	#while 1:
-	#    pass
-	    
-	    
+   
 	    
 main()	    
