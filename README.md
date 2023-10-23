@@ -21,8 +21,8 @@ Given functions implemented:
 Brand-new functions implemented to accomplish the assignment:
 * `center_group`
 * `go_take_token`
-* * `place_first_token`
-`bring_token_to_target`
+* `place_first_token`
+* `bring_token_to_target`
 
 
 
