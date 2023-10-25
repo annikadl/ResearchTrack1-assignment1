@@ -327,6 +327,7 @@ def main():
 		
 	
 	d = 0
+	kind_of_token = 3
 	#while d < counter:
 	while len(id_token_list) > 0:
 		print('token to move: ', id_token_list)
@@ -334,7 +335,6 @@ def main():
 		rot_y = rot_token_list[d]
 		token_id = id_token_list[d]
 		print('next token to take: ', token_id)
-		kind_of_token = 3
 		go_take_token(dist, rot_y, token_id,kind_of_token)
 		print('here')
 		bring_token_to_target(token_id)
