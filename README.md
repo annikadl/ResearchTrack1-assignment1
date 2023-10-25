@@ -1,12 +1,17 @@
 # ResearchTrack1-assignment1
 This is the first assignment for the Research Track 1 exam for the Robotics Engineering Master's degree at the University of Genoa.
 
+
 ## Simulator
-To know all about the simulator, who developed it, how to run it and all the base primitives you're invited to look for ReadMe.md in the `assignment23` branch. 
-However, some basic commands used to accomplish the assignment are shown in this section.
+To know all about the simulator, who developed it, how to download it and all the base primitives you're invited to look at ReadMe.md in the `assignment23` branch. 
+Given that, to **run** this code:
+* clone the repository
+* move into the `assignment23` branch with the line command `git checkout assignment23` 
+* run the program with the line command `python2 run.py assignment.py`
+At this point the simulator has started, the program is running and the robot is moving.
 
 ## The assignment
-The task is to make the robot group all the golden tokens in the displayed area. 
+The assignment requires writing a Python node that controls the robot to **put all the golden boxes together**. 
 
 ### Description of the initial condition
 
