@@ -3,23 +3,28 @@ This is the first assignment for the Research Track 1 exam for the Robotics Engi
 
 
 ## Simulator
-To know all about the simulator, who developed it, how to download it and all the base primitives you're invited to look at ReadMe.md in the `assignment23` branch. 
-Given that, to **run** this code:
+The Simulator used during the course is a 2D simulator of a moving Robot and stationary tokens on a playground. The robot can detect, grab and release the tokens.
+
+To know all about the simulator, who developed it and how to download it, you're invited to look at `ReadMe.md` in the `assignment23` branch: this is the professor ReadMe file that provides a fully detailed description of the environment.
+
+Given that, to **run this code**:
 * clone the repository
 * move into the `assignment23` branch with the line command `git checkout assignment23` 
-* run the program with the line command `python2 run.py assignment.py`
+* run the program using `run.py` with the line command `python2 run.py assignment.py`
 At this point the simulator has started, the program is running and the robot is moving.
 
 ## The assignment
 The assignment requires writing a Python node that controls the robot to **put all the golden boxes together**. 
 
-### Description of the initial condition
-
-### Assumptions
-
-
-
-No obstacle avoidance function was implemented
+### Description of the initial condition and assumptions
+The initial condition of the simulation, not considering the code to group all tokens, can be described as follows:
+* the robot occupies the top-left part of the playground and it is directed to its centre.
+* the tokens are:
+  * six.
+  * all gold (there could have been silver tokens).
+  * positioned forming a circle of a certain radius around the centre of the playground.
+In order to make the code as general as possible, the only made assumption is about the number of singular rotations the robot needs to perform a full rotation. In particular, 12 rotations of intensity 20 of 0.5 seconds each are necessary.
+Also, no obstacle-avoidance function was implemented.
 
 ### How to accomplish the task
 
@@ -66,6 +71,10 @@ Brand-new functions implemented to accomplish the assignment:
 * `go_take_token`
 * `place_first_token`
 * `bring_token_to_target`
+
+### Further improvements
+* obtain full rotation automatically
+* obstacle avoidance function
 
 
 Function list:
