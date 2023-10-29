@@ -90,6 +90,11 @@ Function list:
 * add comments in the code
 
 
+## TODO CODE:
+* deal with where to place token if the robots sees just one
+* improve comments, also decide if make them purple or blue
+* 
+
 
 
 
