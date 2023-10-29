@@ -80,10 +80,12 @@ def center_group(markers):
 			max_dist = m.dist
 			id_max_dist_token = m.info.offset
 			
-	#print(min_dist, max_dist)
-	
-	# target_distance from the min_dist_token
-	target_distance = (min_dist+max_dist)/2
+	if id_min_dist_token != id_max_dist_token:	
+		# target_distance from the min_dist_token
+		target_distance = (min_dist+max_dist)/2
+	# if the robot sees just a token, the min distance token corresponds to the target
+	elif id_min_dist_token == id_max_dist_token:
+		target_distance = min_dist
 	
 	return target_distance, id_max_dist_token, id_min_dist_token
 	
@@ -92,8 +94,8 @@ def center_group(markers):
 ''' 
 	first token -> kind_of_token = 1
     	generic token -> kind_of_token = 3 '''
-    		
-def go_take_token(dist, rot_y, token_id,kind_of_token):
+
+def go_take_token(token_id,kind_of_token):
 	# go take first token: 1
 	notgrabbed = 0
 	# go take token i: 3
@@ -104,20 +106,17 @@ def go_take_token(dist, rot_y, token_id,kind_of_token):
 	found_3 = 0
 	
 	
-	
-	if kind_of_token == 3:
-		while found == 0:
-			for m in R.see():
-				if m.info.offset == token_id:
-					dist = m.dist
-					rot_y = m.rot_y
-					found = 1
-					found_id = token_id
-					# print('found_id: ', found_id)
-					print('dist dal prossimo token: ',dist)
-			if found_id != token_id:
-				turn(-25,0.5)
-	
+	while found == 0:
+		for m in R.see():
+			if m.info.offset == token_id:
+				dist = m.dist
+				rot_y = m.rot_y
+				found = 1
+				found_id = token_id
+				print('found_id: ', found_id)
+				print('dist dal prossimo token: ',dist)
+		if found_id != token_id:
+			turn(-25,0.5)
 	
 	while notgrabbed == 0: 			
 		if rot_y < -a_th: # if the robot is not well aligned with the token, we move it on the left or on the right
@@ -171,9 +170,6 @@ def go_take_token(dist, rot_y, token_id,kind_of_token):
 		drive(-20,1)
 		turn(-20,2.5)
 		
-		
-	
-#TODO: non posso metterla con bring to target perche 1: non ho un id ma una distanza, 2: tutti i controlli si basano sul id_min_dist_token che ho in mano
 
 def place_first_token(id_max_dist_token,target_distance):
 	first_token_placed = 0;
@@ -204,8 +200,6 @@ def place_first_token(id_max_dist_token,target_distance):
 
 	
 def bring_token_to_target(token_id):
-	
-	#TODO: unire con go_take_token_i e fare conftonto con token id per grabbare o release
 	''' 
 	cerco in R.see() il token target
 	mi calcolo la distanza dal token target
@@ -272,23 +266,18 @@ def main():
 	     turn(10,0.5)
 	     dist, rot_y, token_id = find_token()
 
-	
-	 #print ("I can see", len(markers), "markers:")
-	
 	target_distance, id_max_dist_token, id_min_dist_token = center_group(markers)
 	
 	global target_id
 	target_id = id_min_dist_token
 
-	# print('the distance between nearest and farest token is: ', target_distance)
 	print('offset of min_dist_token is: ',id_min_dist_token )
-	# print('offset of max_dist_token is: ',id_max_dist_token)
 	
 	# go take the first token
 	kind_of_token = 1
-	go_take_token(dist, rot_y, token_id,kind_of_token)
+	go_take_token(token_id,kind_of_token)
 	
-	# go towards the max dist token and stop half way
+	# go towards the max dist token and stop half way to place the target token
 	place_first_token(id_max_dist_token, target_distance)
 	
 	
@@ -298,50 +287,41 @@ def main():
 	# perfom a full rotation to see each token
 	i = 0
 	counter = 0
-	dist_token_list = []
-	rot_token_list = []
+	
+	# initialise a list containing the id of each token in the playground. This is going to be useful when the robot look for a token to move to the target one. 	
 	id_token_list = []
 	
-	# 12 partial rotation almost correspond to a 360 rotation
+	# 12 partial rotation almost correspond to a 360 rotation with this speed and time. It may be better to compute it not empirically
 	while i  < 12:
 		for m in R.see():
 			if m.info.offset not in id_token_list:
-				# build 3 array
 				id_token_list.append(m.info.offset) 
-				dist_token_list.append(m.dist) 
-				rot_token_list.append(m.rot_y)
 				counter = counter +1			
 		i = i+1
 		turn(-20,0.5)
 	
 	
-	# remove the id_min_dist token that was placed in the middle
+	# remove from the list of tokens to move the id_min_dist token that was placed in the middle of the playground
 	d = 0
 	while d < counter:
 		if id_token_list[d] == target_id:
-			dist_token_list.pop(d)
-			rot_token_list.pop(d)
 			id_token_list.pop(d)
 			counter -= 1
 		d += 1
 		
 	
 	d = 0
+	# now the robot moves the other tokens to the target one
 	kind_of_token = 3
-	#while d < counter:
 	while len(id_token_list) > 0:
 		print('token to move: ', id_token_list)
-		dist = dist_token_list[d]
-		rot_y = rot_token_list[d]
 		token_id = id_token_list[d]
 		print('next token to take: ', token_id)
-		go_take_token(dist, rot_y, token_id,kind_of_token)
+		go_take_token(token_id,kind_of_token)
 		print('here')
 		bring_token_to_target(token_id)
 
 		''' remove placed token '''
-		dist_token_list.pop(d)
-		rot_token_list.pop(d)
 		id_token_list.pop(d)
 		
 		# d is always zero and takes always the first element
