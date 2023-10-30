@@ -61,7 +61,7 @@ To write a program performing as seen in the last section, some functions were i
 To go more into details:
 * `center_group`: the idea this function implements is to find a point in the playground that is near each token so that the robot must not cross the whole playground for each token. It is computed by looking for the nearest token and the farthest token, and placing the first one (chosen to be the target token) halfway through the second one. In order to reduce the number and the length of displacements, the target token is chosen to be the nearest one, that is brought to the target point.
 * `go_take_token`: this function discriminates between two types of tokens:
-  * the first token, the one that is placed according to function center_group and that, once placed, becomes the target token. In this case, the integer kind_of_token is equal to 1
+  * the first token, the one that is placed according to function center_group and that, once placed, becomes the target token. In this case, the integer kind_of_token is equal to 1.
   * the generic token that must be grabbed and brought to the target one. In this case, the integer kind_of_token is equal to 3.
 * `place_first_token` complementary function to go_take_token in case of generic tokens. It is used to bring the token just grabbed to the target one, to place it there.
 
