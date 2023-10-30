@@ -29,12 +29,12 @@ Also, no obstacle-avoidance function was implemented.
 
 ### How to accomplish the task
 To accomplish the task, the implemented workflow is:
-1. check if the robot sees at least two tokens
-2. choose the target token and where to place it, this is the area around which the other tokens will be placed calling function center_group
-3. take the target token and place it with functions go_take_token and place_first_token
-4. look for all the other tokens to move and save their offset in a list called id_token_list
-5. one by one, choosing a token (from the first seen to the last), take it with the function go_take_token and bring it to the target one with bring_token_to_target. Once the token is correctly placed near the target one, its offset is removed from id_token_list
-6. when the id_token_list, which contains the remaining token to move, is empty, the tokens are grouped and the task is accomplished.  
+1. check if the robot sees at least two tokens; otherwise the task would be already accomplished.
+2. choose the target token and where to place it, this is the area around which the other tokens will be placed.
+3. take the target token and place it properly.
+4. look for all the other tokens to move and save their offset in a list.
+5. one by one, choosing a token (from the first seen to the last), take it with and bring it to the target one. Once the token is correctly placed near the target one, its offset is removed from the list of still-to-be-placed tokens.
+6. when the list which contains the remaining token to move is empty, the tokens are grouped and the task is accomplished.  
 
 ### Functions
 To write a program performing as seen in the last section, some functions were implemented. Three of them have been already used in previous exercises with the same simulator, but with different initial configurations; the others were implemented ad hoc to fulfil the assignment.
