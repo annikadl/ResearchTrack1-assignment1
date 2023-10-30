@@ -127,11 +127,11 @@ function main():
 
         # Remove the placed token from id_token_list
         Remove the first element from id_token_list
-        Decrement d
 
         Print the number of remaining tokens in id_token_list
 
     # Step 6: Task accomplished
+    # When id_token_list is empty, tokens are correctly grouped
     Print("TASK ACCOMPLISHED!")
     Exit the program
 ```
