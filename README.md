@@ -10,7 +10,7 @@ To know all about the simulator, who developed it and how to download it, you're
 Given that, to **run this code**:
 * clone the repository
 * move into the `assignment23` branch with the line command `git checkout assignment23` 
-* run the program using `run.py` with the line command `python2 run.py assignment.py`
+* run the program going into `robot-sim` folder and using `run.py` with the line command `python2 run.py assignment.py`
 At this point the simulator has started, the program is running and the robot is moving.
 
 ## The assignment
