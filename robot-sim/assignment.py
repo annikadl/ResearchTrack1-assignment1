@@ -73,11 +73,11 @@ def find_token():
 		
 def center_group(markers):
 	"""
-	Function to compute where to place the first token, around which the others will be brought. The idea is to find a point in the playground that is near to each token, so that the robot must not cross the whole playground for each token.
+	Function to compute where to place the first token, around which the others will be brought. The idea is to find a point in the playground that is near to each token so that the robot must not cross the whole playground for each token.
 	
-	It is computed looking for the nearest token and the farthest token, and placing the first one (choosen to be the target token) half way through the second one. 
+	It is computed by looking for the nearest token and the farthest token, and placing the first one (chosen to be the target token) halfway through the second one. 
 	
-	In order to reduce the number and the lenght of displacements, the target token is choosen to be the nearest one, that is brought to the target point.
+	In order to reduce the number and the length of displacements, the target token is chosen to be the nearest one, that is brought to the target point.
 	
 	returns:
 	- target_distance (float): the distance from where to place the target token. It is computed from the nearest token 
@@ -108,9 +108,9 @@ def center_group(markers):
 def go_take_token(token_id,kind_of_token):
 	"""
 	Function to move in the direction of a specific token to reach and grab it.
-	This function discriminates between two types of token:
-	- the first token, the one that is placed according to function center_group and that, once placed, becomes the target token. In this case the integer kind_of_token is equal to 1
-	- the generic token that must be grabbed and brought to the target one. In this case the integer kind_of_token is equal to 3.
+	This function discriminates between two types of tokens:
+	- the first token, the one that is placed according to function center_group and that, once placed, becomes the target token. In this case, the integer kind_of_token is equal to 1
+	- the generic token that must be grabbed and brought to the target one. In this case, the integer kind_of_token is equal to 3.
 	
 	To resume:	
 	first token -> kind_of_token = 1
@@ -154,7 +154,7 @@ def go_take_token(token_id,kind_of_token):
 			turn(+10, 0.1)	
 			drive(15,0.5)  
 			counter_right_rotation = counter_right_rotation +1
-		elif -a_th<= rot_y <= a_th and dist >d_th: # if the robot is well aligned ith the token, we go forward
+		elif -a_th<= rot_y <= a_th and dist >d_th: # if the robot is well aligned with the token, we go forward
 			# print("Ah, here we are!.")
 			drive(15, 0.5)   	   
 		elif dist <d_th:
@@ -176,7 +176,7 @@ def go_take_token(token_id,kind_of_token):
 		found_3 = 0
 		
 	if kind_of_token == 1:
-	# perform a rotation that brings e back to the inizial rotation
+	# perform a rotation that brings e back to the initial rotation
 		while counter_left_rotation != 0:
 			# for each left rot,i do a right rot
 			# print("Right a bit...")
@@ -190,7 +190,7 @@ def go_take_token(token_id,kind_of_token):
 			counter_right_rotation = counter_right_rotation -1
 			
 	if kind_of_token == 3:
-		# perform a rotation that brings e back to the inizial rotation
+		# perform a rotation that brings e back to the initial rotation
 		# assunption: the robot takes the token turning its back from the center
 		drive(-20,1)
 		turn(-20,2.5)
@@ -198,7 +198,7 @@ def go_take_token(token_id,kind_of_token):
 
 def place_first_token(id_max_dist_token,target_distance):
 	"""
-	This function is used to place the first token after it has been grabbed. It is very similar to function go_take_token, but the distance check is made using target_distance parameter instead of the thershold d_th. 
+	This function is used to place the first token after it has been grabbed. It is very similar to the function go_take_token, but the distance check is made using the target_distance parameter instead of the threshold d_th. 
 	
 	This function does not have return values.
 	
@@ -230,7 +230,7 @@ def place_first_token(id_max_dist_token,target_distance):
 	
 def bring_token_to_target(token_id):
 	"""
-	This function is complementar to go_take_token in case of generic tokens. It is used to bring the token just grabbed to the target one, to place it there.
+	This function is complementary to go_take_token in case of generic tokens. It is used to bring the token just grabbed to the target one, to place it there.
 	
 	This function does not have return values.
 	
@@ -283,15 +283,15 @@ def bring_token_to_target(token_id):
 
 def main():
 	"""
-	This is the main function in which all the other function are called and the idea of how to accomplish the task is implemented.
+	This is the main function in which all the other functions are called and the idea of how to accomplish the task is implemented.
 	
 	The workflow is the following:
 	1 - check if the robot sees at least two tokens
 	2 - choose the target token and where to place it, it is the area around which the other tokens will be placed calling function center_group
 	3 - take the target token and place it with functions go_take_token and place_first_token
 	4 - look for all the other tokens to move and save their offset in a list called id_token_list
-	5 - one by one, choosing a token (from the first seen to the last), go taking it with function go_take_token and bringing them to the target one with bring_token_to_target. Once the token is correctly placed near the target one, its offset is removed from id_token_list
-	6 - when the id_token_list, which constains the remaining token to move, is empty, the task is accomplished.  
+	5 - one by one, choose a token (from the first seen to the last), go taking it with the function go_take_token and bring them to the target one with bring_token_to_target. Once the token is correctly placed near the target one, its offset is removed from id_token_list
+	6 - when the id_token_list, which contains the remaining token to move, is empty, the task is accomplished.  
 	
 	"""
 	### 1 - check if the robot sees at least two tokens
@@ -307,7 +307,7 @@ def main():
 	# if the robot sees just one token there are two possibilities:
 	# scenario 1 - it does not see the others, so it is useful to rotate to see them all
 	
-	# 12 partial rotation almost correspond to a 360 rotation with this speed and time. It may be better to compute it not empirically
+	# 12 partial rotation almost corresponds to a 360 rotation with this speed and time. It may be better to compute it not empirically
 	i = 0
 	if len(markers) == 1:
 		while i < 12 and len(markers) < 2:
@@ -337,23 +337,23 @@ def main():
 	kind_of_token = 1
 	go_take_token(token_id,kind_of_token)
 	
-	# go towards the max dist token and stop half way to place the target token
+	# go towards the max dist token and stop halfway to place the target token
 	place_first_token(id_max_dist_token, target_distance)
 	
-	# perform a rotation to get lookinf from the direction it came.
+	# perform a rotation to get looking from the direction it came.
 	turn(-20,3)
 	drive(0,1)
 	
 	### 4 - look for all the other tokens to move and save their offset in a list called id_token_list
 	
-	# From this new position it is possible to start scanning the whole area to see all the tokens, perfoming a full rotation
+	# From this new position it is possible to start scanning the whole area to see all the tokens, performing a full rotation
 	i = 0
 	counter = 0
 	
 	# initialise a list containing the offset of each token in the playground. This is going to be useful when the robot looks for a token to move to the target one. 	
 	id_token_list = []
 	
-	# 12 partial rotation almost correspond to a 360 rotation with this speed and time. It may be better to compute it not empirically
+	# 12 partial rotation almost corresponds to a 360 rotation with this speed and time. It may be better to compute it not empirically
 	while i  < 12:
 		for m in R.see():
 			if m.info.offset not in id_token_list:
@@ -372,7 +372,7 @@ def main():
 		d += 1
 		
 	
-	### 5 - one by one, choosing a token (from the first seen to the last), go taking it with function go_take_token and bringing them to the target one with bring_token_to_target. Once the token is correctly placed near the target one, its offset is removed from id_token_list
+	### 5 - one by one, choose a token (from the first seen to the last), go taking it with the function go_take_token and bring them to the target one with bring_token_to_target. Once the token is correctly placed near the target one, its offset is removed from id_token_list
 	
 	d = 0
 	# now the robot moves the other tokens to the target one
@@ -389,10 +389,10 @@ def main():
 		id_token_list.pop(d)
 		
 		# d is always zero and takes always the first element
-		# since token are removed, no need to change cell
+		# since tokens are removed, no need to change cell
 		print('number of remaining token: ', len(id_token_list))
 	
-	### 6 - when the id_token_list, which constains the remaining token to move, is empty, the task is accomplished. 
+	### 6 - when the id_token_list, which contains the remaining token to move, is empty, the task is accomplished. 
 	# when id_token_list is empty the previous while condition is false
 		
 	print('TASK ACCOMPLISHED!.')
