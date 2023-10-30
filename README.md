@@ -147,20 +147,13 @@ function main():
 
 Function list:
 ##### TODO: 
-* provide a brief explanation of what it does
-* provide a list of the parameters it takes
-* provide a list of the eventual return values
-* talk about global functions
-* explain how to run the code
-* explain how the program is expected to behaviour
+* talk about global values
 * maybe insert some code blocks
 * provide pseudo code or diagrams
-* add comments in the code
+* IMPORTANT: explain why tokens where grouped in the middle of the playground and if the solution is sufficiently general
 
 
 ## TODO CODE:
-* deal with where to place token if the robots sees just one
-* improve comments, also decide if make them purple or blue
 * 
 
 
