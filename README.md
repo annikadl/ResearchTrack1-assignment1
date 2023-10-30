@@ -23,6 +23,7 @@ The initial condition of the simulation, not considering the code to group all t
   * six.
   * all gold (there could have been silver tokens).
   * positioned forming a circle of a certain radius around the centre of the playground.
+
 In order to make the code as general as possible, the only assumption made is about the number of singular rotations the robot needs to perform a full rotation. In particular, 12 rotations of intensity 20 for 0.5 seconds each are necessary.
 Also, no obstacle-avoidance function was implemented.
 
