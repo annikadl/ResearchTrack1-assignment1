@@ -133,10 +133,6 @@ function main():
     # Step 6: Task accomplished
     Print("TASK ACCOMPLISHED!")
     Exit the program
-
-
-
-
 ```
 
 
