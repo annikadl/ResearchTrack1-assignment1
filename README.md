@@ -142,8 +142,15 @@ function main():
 
 
 ### Further improvements
-* obtain full rotation automatically
-* obstacle avoidance function
+This simple code can be improved in different ways.
+
+First of all, as is it possible to notice, the robot moves quite slow: its velocity can be incremented paying attention on how fast it turns and to stop in front of each token, avoiding hurting them.
+
+Also, no obstacle avoidance function was implemented. To address the obstacle problem, the robots scans the tokens clockwise starting from its initial position; this behaviour allows it to collect all the tokens without crossing the playground's center where the tokens lay. However, there is no guarantee that if the tokens were initially differently positioned, the program would work as efficiently as it does in this particular case.
+
+Furthermore, to make this program even more general, it is possible to compute automatically how much does it take to compute a full rotation. In this case, as said before, a full rotation was empirically obtained.
+
+To conclude,
 
 
 Function list:
