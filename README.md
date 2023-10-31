@@ -24,7 +24,7 @@ The initial condition of the simulation, not considering the code to group all t
   * all gold (there could have been silver tokens).
   * positioned forming a circle of a certain radius around the centre of the playground.
 
-In order to make the code as general as possible, the only assumption made is about the number of singular rotations the robot needs to perform a full rotation. In particular, 12 rotations of intensity 20 for 0.5 seconds each are necessary.
+In order to make the code as general as possible, the only assumption made is about the number of singular rotations the robot needs to perform a full rotation.
 Also, no obstacle-avoidance function was implemented.
 
 ### How to accomplish the task
@@ -34,7 +34,10 @@ To accomplish the task, the implemented workflow is:
 3. take the target token and place it properly.
 4. look for all the other tokens to move and save their offset in a list.
 5. one by one, choosing a token (from the first seen to the last), take it with and bring it to the target one. Once the token is correctly placed near the target one, its offset is removed from the list of still-to-be-placed tokens.
-6. when the list which contains the remaining token to move is empty, the tokens are grouped and the task is accomplished.  
+6. when the list which contains the remaining token to move is empty, the tokens are grouped and the task is accomplished.
+
+##### DISCLAIMER
+To improve the robot's performance --------- come calcolo dove posizionarlo, rimane al centro in questo caso ed è abbastanza generale
 
 ### Functions
 To write a program performing as seen in the last section, some functions were implemented. Three of them have been already used in previous exercises with the same simulator, but with different initial configurations; the others were implemented ad hoc to fulfil the assignment.
