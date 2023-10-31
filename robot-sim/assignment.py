@@ -91,7 +91,7 @@ def center_group(markers):
 		if m.dist < min_dist:
 			min_dist = m.dist
 			id_min_dist_token = m.info.offset
-		if m.dist > max_dist:
+		elif m.dist > max_dist:
 			max_dist = m.dist
 			id_max_dist_token = m.info.offset
 				
