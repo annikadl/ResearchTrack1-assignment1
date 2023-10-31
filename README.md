@@ -58,13 +58,19 @@ To write a program performing as seen in the last section, some functions were i
 | `bring_token_to_target(token_id)` | Moves a token to the target token's position. | `token_id` (int) | None |
 | `main()`             | Main function that controls the entire program.  | None                            | None |
 
-To go more into details:
+To go more into detail:
 * `center_group`: the idea this function implements is to find a point in the playground that is near each token so that the robot must not cross the whole playground for each token. It is computed by looking for the nearest token and the farthest token, and placing the first one (chosen to be the target token) halfway through the second one. In order to reduce the number and the length of displacements, the target token is chosen to be the nearest one, that is brought to the target point.
 * `go_take_token`: this function discriminates between two types of tokens:
   * the first token, the one that is placed according to function center_group and that, once placed, becomes the target token. In this case, the integer kind_of_token is equal to 1.
   * the generic token that must be grabbed and brought to the target one. In this case, the integer kind_of_token is equal to 3.
-* `place_first_token` complementary function to go_take_token in case of generic tokens. It is used to bring the token just grabbed to the target one, to place it there.
+* `bring_token_to_target`: complementary function to go_take_token in case of generic tokens. It is used to bring the token just grabbed to the target one, to place it there.
+* `place_first_token`: function used to place the first token at the distance previously calculated calling center_group. It implements the same straight movement logic as the other functions. 
 
+
+##### DISCLAIMER
+Functions `go_take_token` and `bring_token_to_target` basically execute the same portion of code with few differences. This means that these two functions can easily be unified introducing one more value of `kind_of_token` to discriminate one more possible behaviour. However, this union will be performed despite clearness: having just a generic function, whose name can be changed into something more general such as `move`, does not make it easy to understand which kind of displacement the robot is performing (moving to take a token or bringing it to the target one). Furthermore, the clarity of the code decreases. On the other hand, the separation allows for writing a more intuitive main function.
+
+To conclude, the choice of maintaining two separate functions is intentional for the aforementioned reasons.
 	
 
 ### Pseudocode
@@ -144,11 +150,14 @@ function main():
 ### Further improvements
 This simple code can be improved in different ways.
 
-First of all, as is it possible to notice, the robot moves quite slow: its velocity can be incremented paying attention on how fast it turns and to stop in front of each token, avoiding hurting them.
+First of all, as is it possible to notice, the robot moves quite slow: its velocity can be incremented paying attention to how fast it turns and stopping in front of each token, avoiding hurting it. In general, precision must be maintained.
 
-Also, no obstacle avoidance function was implemented. To address the obstacle problem, the robots scans the tokens clockwise starting from its initial position; this behaviour allows it to collect all the tokens without crossing the playground's center where the tokens lay. However, there is no guarantee that if the tokens were initially differently positioned, the program would work as efficiently as it does in this particular case.
+Also, no obstacle avoidance function was implemented. To address the obstacle problem, the robot scans the tokens clockwise starting from its initial position; this behaviour allows it to collect all the tokens without crossing the playground's centre where the tokens lay. However, there is no guarantee that if the tokens were initially differently positioned, the program would work as efficiently as it does in this particular case.
 
-Furthermore, to make this program even more general, it is possible to compute automatically how much does it take to compute a full rotation. In this case, as said before, a full rotation was empirically obtained.
+Furthermore, to make this program even more general, it is possible to compute automatically how much it takes to compute a full rotation. In this case, as said before, a full rotation was empirically obtained.
+
+To reduce the length of the program, functions `go_take_token` and `bring_token_to_target` can be unified, since they execute the same amount of code with just a few differences. The main reason why they are still separated, as said before, is to better clarify what the program does: using different functions, with different names, the overall behaviour should sound more clear. However, if upgraded the code may be required to be synthetic; this aim can also be achieved by unifying these functions.
+
 
 To conclude,
 
