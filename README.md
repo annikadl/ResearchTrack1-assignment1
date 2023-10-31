@@ -5,12 +5,12 @@ This is the first assignment for the Research Track 1 exam for the Robotics Engi
 ## Simulator
 The Simulator used during the course is a 2D simulator of a moving Robot and stationary tokens on a playground. The robot can detect, grab and release the tokens.
 
-To know all about the simulator, who developed it and how to download it, you're invited to look at `ReadMe.md` in the `assignment23` branch: this is the professor ReadMe file that provides a fully detailed description of the environment.
+To know all about the simulator, who developed it and how to download it, you're invited to look at `ReadMe.md` file in the `assignment23` branch: this is the professor ReadMe file that provides a fully detailed description of the environment.
 
 Given that, to **run this code**:
 * clone the repository
 * move into the `assignment23` branch with the line command `git checkout assignment23` 
-* run the program going into `robot-sim` folder and using `run.py` with the line command `python2 run.py assignment.py`
+* run the program going into `robot-sim` folder and using `run.py` with the command `python2 run.py assignment.py`
 At this point the simulator has started, the program is running and the robot is moving.
 
 ## The assignment
