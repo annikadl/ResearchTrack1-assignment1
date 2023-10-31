@@ -86,13 +86,11 @@ def center_group(markers):
 	
 	"""
 	min_dist = 100
+	max_dist = 0
 	for m in markers:
 		if m.dist < min_dist:
 			min_dist = m.dist
 			id_min_dist_token = m.info.offset
-			
-	max_dist = 0
-	for m in markers:
 		if m.dist > max_dist:
 			max_dist = m.dist
 			id_max_dist_token = m.info.offset
@@ -100,7 +98,6 @@ def center_group(markers):
 	# target_distance from the min_dist_token
 	target_distance = (min_dist+max_dist)/2
 
-	
 	return target_distance, id_max_dist_token, id_min_dist_token
 	
 
@@ -117,8 +114,6 @@ def go_take_token(token_id,kind_of_token):
     	generic token -> kind_of_token = 3 
     	
     	This function does not have return values
-    	
-    	
     	"""    	
 	
 	notgrabbed = 0
@@ -129,7 +124,6 @@ def go_take_token(token_id,kind_of_token):
 	found = 0
 	found_id = 0
 	found_3 = 0
-	
 	
 	while found == 0:
 		for m in R.see():
@@ -193,7 +187,6 @@ def place_first_token(id_max_dist_token,target_distance):
 	This function is used to place the first token after it has been grabbed. It is very similar to the function go_take_token, but the distance check is made using the target_distance parameter instead of the threshold d_th. 
 	
 	This function does not have return values.
-	
 	"""
 
 	first_token_placed = 0;
@@ -204,7 +197,7 @@ def place_first_token(id_max_dist_token,target_distance):
 		for m in markers:
 			if m.info.offset != id_max_dist_token:
 				markers.remove(m)
-		
+				
 		# list of one element
 		for m in markers:
     			dist = m.dist
@@ -225,7 +218,6 @@ def bring_token_to_target(token_id):
 	This function is complementary to go_take_token in case of generic tokens. It is used to bring the token just grabbed to the target one, to place it there.
 	
 	This function does not have return values.
-	
 	"""
 	
 	token_placed = 0
@@ -243,8 +235,7 @@ def bring_token_to_target(token_id):
 					found = 1
 			if found_id != target_id:
 				turn(-25,0.5)
-				drive(0,1)
-				
+				drive(0,1)	
 	
 	# until the token is not correctly placed near the target one
 	while token_placed == 0:
@@ -269,8 +260,7 @@ def bring_token_to_target(token_id):
 	
 	drive(-10,2)
 	turn(20,2)	
-	
-	
+		
 	
 
 def main():
@@ -284,7 +274,6 @@ def main():
 	4 - look for all the other tokens to move and save their offset in a list called id_token_list
 	5 - one by one, choose a token (from the first seen to the last), go taking it with the function go_take_token and bring them to the target one with bring_token_to_target. Once the token is correctly placed near the target one, its offset is removed from id_token_list
 	6 - when the id_token_list, which contains the remaining token to move, is empty, the task is accomplished.  
-	
 	"""
 	### 1 - check if the robot sees at least two tokens
 	markers = R.see()
