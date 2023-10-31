@@ -145,21 +145,17 @@ def go_take_token(token_id,kind_of_token):
 	
 	while notgrabbed == 0: 			
 		if rot_y < -a_th: # if the robot is not well aligned with the token, we move it on the left or on the right
-			# print("Left a bit...")
 			turn(-10, 0.1)
 			drive(15,0.5)
 			counter_left_rotation = counter_left_rotation +1
 		elif rot_y > a_th:
-			# print("Right a bit...")
 			turn(+10, 0.1)	
 			drive(15,0.5)  
 			counter_right_rotation = counter_right_rotation +1
 		elif -a_th<= rot_y <= a_th and dist >d_th: # if the robot is well aligned with the token, we go forward
-			# print("Ah, here we are!.")
 			drive(15, 0.5)   	   
 		elif dist <d_th:
 			drive(0,1)
-			# print("Found it!")
 			R.grab() # if we are close to the token, we grab it.
 			print("Gotcha!") 
 			drive(-15, 0.5)
@@ -169,9 +165,7 @@ def go_take_token(token_id,kind_of_token):
 			if token_id2 == token_id:
 				token_id = token_id2
 				found_3 = 1
-			else: 
-				# print('i dont see the token ', token_id, ' anymore')
-				# print('now i see token ', token_id2)
+			else:
 				drive(-15, 0.5)
 		found_3 = 0
 		
@@ -179,13 +173,11 @@ def go_take_token(token_id,kind_of_token):
 	# perform a rotation that brings e back to the initial rotation
 		while counter_left_rotation != 0:
 			# for each left rot,i do a right rot
-			# print("Right a bit...")
 			turn(+10, 0.1)	
 			counter_left_rotation = counter_left_rotation-1
 		
 		while counter_right_rotation != 0:
 			# for each right rot,i do a left rot
-			# print("Left a bit...")
 			turn(-10, 0.1)	
 			counter_right_rotation = counter_right_rotation -1
 			
