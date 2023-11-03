@@ -41,7 +41,7 @@ To accomplish the task, the implemented workflow is:
 To improve the robot's performance an operational choice was to place the target token as near as possible to all the others. Since the simulator starts with a circular disposition of tokens, the best choice to make the robot walk the less is to bring the nearest token and place it at the centre of this circle. However, for the sake of generality this position was not computed absolutely, namely if the disposition of tokens changes the position of the target does not. To position the target token is computed as the halfway between the position of both the nearest and the farthest tokens the robot can see; according to this reasoning, the target token will always be placed somewhere minimizing the displacement of the robot, but in some specific cases (all the tokens are already near but one). 
 
 ### Global variables
-Some global values, mostly constant and common to several functions were introduced.
+Some global variables, mostly constant and common to several functions were introduced.
 * `a_th = 2.0`: used to check how many turns the robot must do to be aligned with its target.
 * `d_th = 0.4`: used to check when the robot is sufficiently close to a token to grab it.
 * `d_target_token = 0.6`: used to check when the robot is sufficiently close to the target token to release the one which is holding.
@@ -172,7 +172,7 @@ An additional feature that can bring several improvements regards where to place
 To reduce the length of the program, functions `go_take_token` and `bring_token_to_target` can be unified, since they execute the same amount of code with just a few differences. The main reason why they are still separated, as said before, is to clarify better what the program does: using different functions, with different names, the overall behaviour should sound more clear. However, if upgraded the code may be required to be synthetic.
 
 
-To conclude,
+To conclude, ----------------------------------------------------
 
 
 Function list:
