@@ -3,21 +3,22 @@ This is the first assignment for the Research Track 1 exam for the Robotics Engi
 
 
 ## Simulator
-The Simulator used during the course is a 2D simulator of a moving Robot and stationary tokens on a playground. The robot can detect, grab and release the tokens.
+The used simulator is a 2D simulator of a moving robot. The robot can move in a fixed playground among stationary tokens (golden or silver), which can be detected, grabbed, moved and released by the robot.
+(used during the course and to carry out this assignment)
 
-To know all about the simulator, who developed it and how to download it, you're invited to look at `ReadMe.md` file in the `assignment23` branch: this is the professor ReadMe file that provides a fully detailed description of the environment.
+To know more about the simulator, who developed it and how to download it, you are invited to take a look at the `ReadMe.md` file in the `assignment23` branch: this is the professor ReadMe file that provides a fully detailed description of the environment.
 
 Given that, to **run this code**:
-* clone the repository
-* move into the `assignment23` branch with the line command `git checkout assignment23` 
-* run the program going into `robot-sim` folder and using `run.py` with the command `python2 run.py assignment.py`
+* clone the repository.
+* move into the `assignment23` branch with the line command `git checkout assignment23`.
+* run the program going into `robot-sim` folder and using `run.py` with the command `python2 run.py assignment.py`.
 At this point the simulator has started, the program is running and the robot is moving.
 
 ## The assignment
 The assignment requires writing a Python node that controls the robot to **put all the golden boxes together**. 
 
 ### Description of the initial condition and assumptions
-The initial condition of the simulation, not considering the code to group all tokens, can be described as follows:
+The initial condition of the simulation, before bringing them together, can be described as follows:
 * the robot occupies the top-left part of the playground and it is directed to its centre.
 * the tokens are:
   * six.
@@ -29,15 +30,22 @@ Also, no obstacle-avoidance function was implemented.
 
 ### How to accomplish the task
 To accomplish the task, the implemented workflow is:
-1. check if the robot sees at least two tokens; otherwise the task would be already accomplished.
+1. check if the robot sees at least two tokens in the whole playground; otherwise, the task would be already accomplished.
 2. choose the target token and where to place it, this is the area around which the other tokens will be placed.
 3. take the target token and place it properly.
-4. look for all the other tokens to move and save their offset in a list.
-5. one by one, choosing a token (from the first seen to the last), take it with and bring it to the target one. Once the token is correctly placed near the target one, its offset is removed from the list of still-to-be-placed tokens.
+4. look for all the other tokens to move and save their identification offset in a list.
+5. one by one take each token and bring it to the target one. Once the token is correctly placed near the target one, its offset is removed from the list of still-to-be-placed tokens.
 6. when the list which contains the remaining token to move is empty, the tokens are grouped and the task is accomplished.
 
 ##### DISCLAIMER
-To improve the robot's performance --------- come calcolo dove posizionarlo, rimane al centro in questo caso ed è abbastanza generale
+To improve the robot's performance an operational choice was to place the target token as near as possible to all the others. Since the simulator starts with a circular disposition of tokens, the best choice to make the robot walk the less is to bring the nearest token and place it at the centre of this circle. However, for the sake of generality this position was not computed absolutely, namely if the disposition of tokens changes the position of the target does not. To position the target token is computed as the halfway between the position of both the nearest and the farthest tokens the robot can see; according to this reasoning, the target token will always be placed somewhere minimizing the displacement of the robot, but in some specific cases (all the tokens are already near but one). 
+
+### Global variables
+Some global values, mostly constant and common to several functions were introduced.
+* `a_th = 2.0`: used to check how many turns the robot must do to be aligned with its target.
+* `d_th = 0.4`: used to check when the robot is sufficiently close to a token to grab it.
+* `d_target_token = 0.6`: used to check when the robot is sufficiently close to the target token to release the one which is holding.
+* `target_id = 0`: once the target token is identified, this variable is updated and keeps the target's offset.
 
 ### Functions
 To write a program performing as seen in the last section, some functions were implemented. Three of them have been already used in previous exercises with the same simulator, but with different initial configurations; the others were implemented ad hoc to fulfil the assignment.
@@ -71,7 +79,7 @@ To go more into detail:
 
 
 ##### DISCLAIMER
-Functions `go_take_token` and `bring_token_to_target` basically execute the same portion of code with few differences. This means that these two functions can easily be unified introducing one more value of `kind_of_token` to discriminate one more possible behaviour. However, this union will be performed despite clearness: having just a generic function, whose name can be changed into something more general such as `move`, does not make it easy to understand which kind of displacement the robot is performing (moving to take a token or bringing it to the target one). Furthermore, the clarity of the code decreases. On the other hand, the separation allows for writing a more intuitive main function.
+Functions `go_take_token` and `bring_token_to_target` basically execute the same portion of code with few differences. This means that these two functions can easily be unified introducing one more value of `kind_of_token` to discriminate one more possible behaviour. However, this union will be performed despite clearness: having just a generic function, whose name can be changed into something such as `move`, does not make it easy to understand which kind of displacement the robot is performing (moving to take a token or bringing it to the target one). Furthermore, the clarity of the code decreases. Also, the separation allows for writing a more intuitive main function.
 
 To conclude, the choice of maintaining two separate functions is intentional for the aforementioned reasons.
 	
@@ -153,13 +161,15 @@ function main():
 ### Further improvements
 This simple code can be improved in different ways.
 
-First of all, as is it possible to notice, the robot moves quite slow: its velocity can be incremented paying attention to how fast it turns and stopping in front of each token, avoiding hurting it. In general, precision must be maintained.
+First of all, as is it possible to notice, the robot moves quite slowly: its velocity can be incremented by paying attention to how fast it turns and stops in front of each token, avoiding hurting it. In general, precision must be maintained.
 
-Also, no obstacle avoidance function was implemented. To address the obstacle problem, the robot scans the tokens clockwise starting from its initial position; this behaviour allows it to collect all the tokens without crossing the playground's centre where the tokens lay. However, there is no guarantee that if the tokens were initially differently positioned, the program would work as efficiently as it does in this particular case.
+Also, no obstacle avoidance function was implemented. To address the obstacle problem, the robot scans the tokens clockwise starting from its initial position; this behaviour allows it to collect all the tokens without crossing the playground's centre where the tokens lay. However, there is no guarantee that if the tokens were initially differently positioned, the program would work as efficiently as it does.
 
 Furthermore, to make this program even more general, it is possible to compute automatically how much it takes to compute a full rotation. In this case, as said before, a full rotation was empirically obtained.
 
-To reduce the length of the program, functions `go_take_token` and `bring_token_to_target` can be unified, since they execute the same amount of code with just a few differences. The main reason why they are still separated, as said before, is to better clarify what the program does: using different functions, with different names, the overall behaviour should sound more clear. However, if upgraded the code may be required to be synthetic; this aim can also be achieved by unifying these functions.
+An additional feature that can bring several improvements regards where to place the target token. All the relative distances between tokens can be computed to choose and place the target more appropriately. This would help recognise lucky situations in which some tokens are already correctly placed. By now if the nearest token is the only one not well positioned, it still becomes the target and all the other tokens will be brought to it when it would be easier and cheaper to move it to the others.
+
+To reduce the length of the program, functions `go_take_token` and `bring_token_to_target` can be unified, since they execute the same amount of code with just a few differences. The main reason why they are still separated, as said before, is to clarify better what the program does: using different functions, with different names, the overall behaviour should sound more clear. However, if upgraded the code may be required to be synthetic.
 
 
 To conclude,
@@ -167,15 +177,5 @@ To conclude,
 
 Function list:
 ##### TODO: 
-* talk about global values
 * maybe insert some code blocks
-* provide pseudo code or diagrams
-* IMPORTANT: explain why tokens where grouped in the middle of the playground and if the solution is sufficiently general
-
-
-## TODO CODE:
-* 
-
-
-
-
+* flowchart?
