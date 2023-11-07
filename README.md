@@ -172,10 +172,4 @@ An additional feature that can bring several improvements regards where to place
 To reduce the length of the program, functions `go_take_token` and `bring_token_to_target` can be unified, since they execute the same amount of code with just a few differences. The main reason why they are still separated, as said before, is to clarify better what the program does: using different functions, with different names, the overall behaviour should sound more clear. However, if upgraded the code may be required to be synthetic.
 
 
-To conclude, ----------------------------------------------------
-
-
-Function list:
-##### TODO: 
-* maybe insert some code blocks
-* flowchart?
+To conclude, even though clarity had the highest priority, several improvements are possible, both in terms of robot's behaviour and code efficiency.  However, the developed program fully accomplishes the assigned task. Furthermore, this Readme file provides a full description of program's behaviour, operational and structural choices. 
