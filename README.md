@@ -4,7 +4,6 @@ This is the first assignment for the Research Track 1 exam for the Robotics Engi
 
 ## Simulator
 The used environment is a 2D simulator of a moving robot. The robot can move in a fixed playground among stationary tokens (golden or silver), which can be detected, grabbed, moved and released by the robot.
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!(used during the course and to carry out this assignment)
 
 To know more about the simulator, who developed it and how to download it, you are invited to take a look at the `ReadMe.md` file in the `assignment23` branch: this is the professor ReadMe file that provides a fully detailed description of the environment.
 
