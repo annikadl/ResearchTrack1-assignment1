@@ -14,7 +14,7 @@ Given that, to **run this code**:
 At this point the simulator has started, the program is running and the robot is moving.
 
 ## The assignment
-The assignment requires writing a Python node that controls the robot to **put all the boxes together**. 
+The assignment requires writing a Python node that controls the robot to **put all the golden boxes together**. 
 
 ### Description of the initial condition and assumptions
 The initial condition of the simulation, before bringing the boxes together, can be described as follows:
@@ -55,7 +55,7 @@ To write a program capable of performing as explained in the "How to accomplish 
 |----------------------|--------------------------------------------------------|---------------------------------|-----------------------|
 | `drive(speed, seconds)` | Sets the linear velocity of the robot.             | `speed` (int), `seconds` (int) | None                  |
 | `turn(speed, seconds)`  | Sets the angular velocity of the robot.            | `speed` (int), `seconds` (int) | None                  |
-| `find_token()`        | Finds the closest token and its information.        | None                            | `dist` (float), `rot_y` (float), `token_id` (int) |
+| `find_token()`        | Finds the closest golden token and its information.        | None                            | `dist` (float), `rot_y` (float), `token_id` (int) |
 
 
 #### Ad hoc implemented functions
