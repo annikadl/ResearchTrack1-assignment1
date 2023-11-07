@@ -60,7 +60,7 @@ def find_token():
     """
     dist=100
     for token in R.see():
-    	if token.dist < dist:
+    	if token.dist < dist and token.info.marker_type is MARKER_TOKEN_GOLD:
     		dist = token.dist
     		rot_y = token.rot_y
     		token_id = token.info.offset
